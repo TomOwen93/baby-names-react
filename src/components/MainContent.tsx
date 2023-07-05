@@ -23,21 +23,20 @@ function MainContent(): JSX.Element {
   );
 
   const handleAddFavourites = (baby: Baby) => {
-    setFavourites([...favourites, baby].sort(((a: Baby, b: Baby) =>
-    compareBaby(a, b))));
-    const filteredList = babyList.filter((el) => filterBabyId(el.id, baby.id))
+    setFavourites(
+      [...favourites, baby].sort((a: Baby, b: Baby) => compareBaby(a, b))
+    );
+    const filteredList = babyList.filter((el) => filterBabyId(el.id, baby.id));
 
-    setBabyList(filteredList.sort(((a: Baby, b: Baby) =>
-    compareBaby(a, b)
-  )));
+    setBabyList(filteredList.sort((a: Baby, b: Baby) => compareBaby(a, b)));
   };
 
   const handleRemoveFavourites = (baby: Baby) => {
     setFavourites(favourites.filter((el) => el.id !== baby.id));
-    
-    setBabyList([...babyList, baby].sort(((a: Baby, b: Baby) =>
-    compareBaby(a, b)
-  )));
+
+    setBabyList(
+      [...babyList, baby].sort((a: Baby, b: Baby) => compareBaby(a, b))
+    );
   };
 
   return (

@@ -5,3 +5,11 @@ export function filterBabyInput(baby: string, input: string): boolean {
     return false;
   }
 }
+
+export function filterBabyId(babyid: number, id: number): boolean {
+  if (babyid !== id) {
+    return true;
+  } else {
+    return false;
+  }
+}

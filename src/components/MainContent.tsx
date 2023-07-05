@@ -1,7 +1,7 @@
 import babyNamesData from "../babyNamesData.json";
 import { useState } from "react";
 import { compareBaby } from "../utils/sortBaby";
-import { filterBabyInput } from "../utils/filterBaby";
+import { filterBabyInput, filterBabyId } from "../utils/filterBaby";
 
 type Baby = {
   name: string;
@@ -23,13 +23,21 @@ function MainContent(): JSX.Element {
   );
 
   const handleAddFavourites = (baby: Baby) => {
-    setFavourites([...favourites, baby]);
-    setBabyList(babyList.filter((el) => el.id !== baby.id));
+    setFavourites([...favourites, baby].sort(((a: Baby, b: Baby) =>
+    compareBaby(a, b))));
+    const filteredList = babyList.filter((el) => filterBabyId(el.id, baby.id))
+
+    setBabyList(filteredList.sort(((a: Baby, b: Baby) =>
+    compareBaby(a, b)
+  )));
   };
 
   const handleRemoveFavourites = (baby: Baby) => {
-    setFavourites(favourites.filter((el) => el.id !== baby.id));
-    setBabyList([...babyList, baby]);
+    setFavourites(favourites.filter((el) => filterBabyId(el.id, baby.id)));
+    
+    setBabyList([...babyList, baby].sort(((a: Baby, b: Baby) =>
+    compareBaby(a, b)
+  )));
   };
 
   return (

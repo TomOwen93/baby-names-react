@@ -33,7 +33,7 @@ function MainContent(): JSX.Element {
   };
 
   const handleRemoveFavourites = (baby: Baby) => {
-    setFavourites(favourites.filter((el) => filterBabyId(el.id, baby.id)));
+    setFavourites(favourites.filter((el) => el.id !== baby.id));
     
     setBabyList([...babyList, baby].sort(((a: Baby, b: Baby) =>
     compareBaby(a, b)

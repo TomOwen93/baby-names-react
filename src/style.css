@@ -1,0 +1,33 @@
+.gender-f {
+  background-color: blueviolet;
+  color: white;
+  width: auto;
+  font-size: 20px;
+  border-radius: 5px;
+  flex: 0 0 auto;
+}
+
+.gender-m {
+  background-color: red;
+  color: white;
+  width: auto;
+  border-radius: 5px;
+  font-size: 20px;
+  flex: 0 0 auto;
+}
+
+.title {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 70px;
+}
+
+.baby-button {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 5px;
+  outline: 1px pink solid;
+  padding: 10px;
+}

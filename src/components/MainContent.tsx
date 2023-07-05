@@ -1,28 +1,71 @@
 import babyNamesData from "../babyNamesData.json";
+import { useState } from "react";
+import { compareBaby } from "../utils/sortBaby";
+import { filterBabyInput } from "../utils/filterBaby";
+
+type Baby = {
+  name: string;
+  id: number;
+  sex: string;
+};
 
 function MainContent(): JSX.Element {
-  const data = babyNamesData;
+  const babyData: Baby[] = babyNamesData.sort((a: Baby, b: Baby) =>
+    compareBaby(a, b)
+  );
 
-  data.sort((a, b) => {
-    if (a.name < b.name) {
-      return -1;
-    }
-    if (a.name > b.name) {
-      return 1;
-    } else {
-      return 0;
-    }
-  });
+  const [searchInput, setSearchInput] = useState("");
+  const [babyList, setBabyList] = useState<Baby[]>(babyData);
+  const [favourites, setFavourites] = useState<Baby[]>([]);
+
+  const filteredData = babyList.filter((el) =>
+    filterBabyInput(el.name, searchInput)
+  );
+
+  const handleAddFavourites = (baby: Baby) => {
+    setFavourites([...favourites, baby]);
+    setBabyList(babyList.filter((el) => el.id !== baby.id));
+  };
+
+  const handleRemoveFavourites = (baby: Baby) => {
+    setFavourites(favourites.filter((el) => el.id !== baby.id));
+    setBabyList([...babyList, baby]);
+  };
 
   return (
     <>
-      <div className="baby-button">
-        {data.map((baby) => (
-          <button className={`gender-${baby.sex}`} key={baby.id}>
-            {" "}
-            {baby.name}{" "}
-          </button>
-        ))}
+      <div className="main-section">
+        <input
+          onChange={(event) => setSearchInput(event.target.value)}
+          className="search-input"
+        />
+        <hr />
+        <div className="baby-section">
+          <h3>Favourites:</h3>
+          {favourites.map((favouriteBaby) => (
+            <button
+              className={`gender-${favouriteBaby.sex}`}
+              key={favouriteBaby.id}
+              onClick={() => handleRemoveFavourites(favouriteBaby)}
+            >
+              {favouriteBaby.name}{" "}
+            </button>
+          ))}
+        </div>
+        <hr />
+
+        <div className="baby-section">
+          {filteredData.map((baby) => (
+            <button
+              onClick={() => handleAddFavourites(baby)}
+              className={`gender-${baby.sex}`}
+              key={baby.id}
+            >
+              {baby.name}
+            </button>
+          ))}
+        </div>
+        <hr />
       </div>
     </>
   );

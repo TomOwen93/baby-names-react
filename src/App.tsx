@@ -3,10 +3,10 @@ import MainContent from "./components/MainContent";
 
 function App(): JSX.Element {
   return (
-    <body>
+    <section>
       <h1 className="title">Welcome!</h1>
       <MainContent />
-    </body>
+    </section>
   );
 }
 

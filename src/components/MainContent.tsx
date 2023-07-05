@@ -17,6 +17,7 @@ function MainContent(): JSX.Element {
   const [searchInput, setSearchInput] = useState("");
   const [babyList, setBabyList] = useState<Baby[]>(babyData);
   const [favourites, setFavourites] = useState<Baby[]>([]);
+  const [activeButton, setActiveButton] = useState(0);
 
   const filteredData = babyList.filter((el) =>
     filterBabyInput(el.name, searchInput)
@@ -26,9 +27,8 @@ function MainContent(): JSX.Element {
     setFavourites(
       [...favourites, baby].sort((a: Baby, b: Baby) => compareBaby(a, b))
     );
-    const filteredList = babyList.filter((el) => filterBabyId(el.id, baby.id));
-
-    setBabyList(filteredList.sort((a: Baby, b: Baby) => compareBaby(a, b)));
+    const filteredByID = babyList.filter((el) => filterBabyId(el.id, baby.id));
+    setBabyList(filteredByID.sort((a: Baby, b: Baby) => compareBaby(a, b)));
   };
 
   const handleRemoveFavourites = (baby: Baby) => {
@@ -37,6 +37,35 @@ function MainContent(): JSX.Element {
     setBabyList(
       [...babyList, baby].sort((a: Baby, b: Baby) => compareBaby(a, b))
     );
+  };
+
+  const handleResetFavourites = () => {
+    setFavourites([]);
+    setBabyList(babyData);
+    setActiveButton(0);
+  };
+
+  const handleFilterButton = (num: number) => {
+    const sexLookup: { [key: number]: string } = { 1: "f", 2: "m" };
+
+    setActiveButton(num);
+    const filteredBySex =
+      num !== 0
+        ? babyData.filter(
+            (el) => el.sex === sexLookup[num] && !favourites.includes(el)
+          )
+        : babyList;
+
+    if (num !== 0) {
+      setBabyList(filteredBySex.sort((a: Baby, b: Baby) => compareBaby(a, b)));
+    } else {
+      setBabyList(
+        babyData.filter(
+          (el) =>
+            filterBabyInput(el.name, searchInput) && !favourites.includes(el)
+        )
+      );
+    }
   };
 
   return (
@@ -58,7 +87,44 @@ function MainContent(): JSX.Element {
               {favouriteBaby.name}{" "}
             </button>
           ))}
+          <button className="plain-button" onClick={handleResetFavourites}>
+            Reset Favourites
+          </button>
         </div>
+        <div className="filter-button-section">
+          <h3>Filter:</h3>
+          <button
+            className={`${
+              activeButton === 1 ? "active-button" : "plain-button"
+            }`}
+            onClick={() => {
+              handleFilterButton(1);
+            }}
+          >
+            Female
+          </button>
+          <button
+            className={`${
+              activeButton === 2 ? "active-button" : "plain-button"
+            }`}
+            onClick={() => {
+              handleFilterButton(2);
+            }}
+          >
+            Male
+          </button>
+          <button
+            className={`${
+              activeButton === 0 ? "active-button" : "plain-button"
+            }`}
+            onClick={() => {
+              handleFilterButton(0);
+            }}
+          >
+            All
+          </button>
+        </div>
+
         <hr />
 
         <div className="baby-section">

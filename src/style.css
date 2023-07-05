@@ -1,6 +1,6 @@
 .gender-f {
   background-color: blueviolet;
-  color: white;
+  color: rgb(241, 209, 255);
   width: auto;
   font-size: 20px;
   border-radius: 5px;
@@ -9,7 +9,7 @@
 
 .gender-m {
   background-color: red;
-  color: white;
+  color: rgb(251, 214, 214);
   width: auto;
   border-radius: 5px;
   font-size: 20px;
@@ -29,13 +29,19 @@
   justify-content: center;
   align-items: center;
   font-size: 70px;
+  font-weight: 600;
+  background-image: linear-gradient(to left, #553c9a, #2b042f);
+  color: transparent;
+  background-clip: text;
+  -webkit-background-clip: text;
 }
 
 .main-section {
   display: flex;
   flex-direction: column;
+  font: white;
   justify-content: center;
-  outline: 2px pink solid;
+  outline: 2px rgb(70, 70, 70) solid;
   border-radius: 10px;
   padding: 10px;
 }
@@ -56,4 +62,21 @@ hr {
   opacity: 50%;
   width: 50%;
   align-self: center;
+}
+
+.active-button {
+  background-color: #ff0000;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+  color: white;
+  font-weight: bold;
+}
+
+body {
+  background-color: pink;
+}
+
+.filter-button-section {
+  display: flex;
+  justify-content: center;
+  width: auto;
 }

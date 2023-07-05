@@ -4,7 +4,7 @@ import MainContent from "./components/MainContent";
 function App(): JSX.Element {
   return (
     <section>
-      <h1 className="title">Welcome!</h1>
+      <h1 className="title">Baby Name Selector</h1>
       <MainContent />
     </section>
   );

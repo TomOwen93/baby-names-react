@@ -1,4 +1,3 @@
-import { useState } from "react";
 import babyNamesData from "../babyNamesData.json";
 
 function MainContent(): JSX.Element {

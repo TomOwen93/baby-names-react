@@ -1,22 +1,22 @@
 interface FilterButtonProps {
-  activeButton: number;
+  activeSex: number;
   sex: string;
-  handleFilterButton: () => void;
+  handleFilterSex: () => void;
   expectedButton: number;
 }
 
 export function FilterButton({
-  handleFilterButton,
-  activeButton,
+  handleFilterSex,
+  activeSex,
   sex,
   expectedButton,
 }: FilterButtonProps): JSX.Element {
   return (
     <button
       className={`${
-        activeButton === expectedButton
-      } ? "active-button" : "plain-button"}`}
-      onClick={handleFilterButton}
+        activeSex === expectedButton ? "active-button" : "plain-button"
+      }`}
+      onClick={handleFilterSex}
     >
       {sex}
     </button>

@@ -11,19 +11,22 @@ export interface Baby {
   sex: string;
 }
 
+const sexLookup: { [key: number]: string | undefined } = { 1: "f", 2: "m" };
+
 function BabyList(): JSX.Element {
-  const babyData: Baby[] = babyNamesData.sort((a: Baby, b: Baby) =>
+  const originalBabyData: Baby[] = babyNamesData.sort((a: Baby, b: Baby) =>
     compareBaby(a, b)
   );
 
   const [searchInput, setSearchInput] = useState("");
-  const [babyList, setBabyList] = useState<Baby[]>(babyData);
+  const [babyList, setBabyList] = useState<Baby[]>(originalBabyData);
   const [favourites, setFavourites] = useState<Baby[]>([]);
-  const [activeButton, setActiveButton] = useState(0);
+  const [activeSex, setActiveSex] = useState(0);
 
-  const filteredData = babyList.filter((el) =>
-    filterBabyInput(el.name, searchInput)
-  );
+  const filteredData = babyList.filter((el) => {
+    const isSexMatch = activeSex === 0 || el.sex === sexLookup[activeSex];
+    return filterBabyInput(el.name, searchInput) && isSexMatch;
+  });
 
   const handleAddFavourites = (baby: Baby) => {
     setFavourites(
@@ -34,7 +37,7 @@ function BabyList(): JSX.Element {
   };
 
   const handleRemoveFavourites = (baby: Baby) => {
-    setFavourites(favourites.filter((el) => el.id !== baby.id));
+    setFavourites(favourites.filter((el) => el !== baby));
 
     setBabyList(
       [...babyList, baby].sort((a: Baby, b: Baby) => compareBaby(a, b))
@@ -43,31 +46,11 @@ function BabyList(): JSX.Element {
 
   const handleResetFavourites = () => {
     setFavourites([]);
-    setBabyList(babyData);
-    setActiveButton(0);
+    setBabyList(originalBabyData);
   };
 
-  const handleFilterButton = (num: number) => {
-    const sexLookup: { [key: number]: string } = { 1: "f", 2: "m" };
-
-    setActiveButton(num);
-    const filteredBySex =
-      num !== 0
-        ? babyData.filter(
-            (el) => el.sex === sexLookup[num] && !favourites.includes(el)
-          )
-        : babyList;
-
-    if (num !== 0) {
-      setBabyList(filteredBySex.sort((a: Baby, b: Baby) => compareBaby(a, b)));
-    } else {
-      setBabyList(
-        babyData.filter(
-          (el) =>
-            filterBabyInput(el.name, searchInput) && !favourites.includes(el)
-        )
-      );
-    }
+  const handleFilterSex = (num: number) => {
+    setActiveSex(num);
   };
 
   return (
@@ -97,26 +80,26 @@ function BabyList(): JSX.Element {
         <div className="filter-button-section">
           <h3>Filter:</h3>
           <FilterButton
-            handleFilterButton={() => {
-              handleFilterButton(1);
+            handleFilterSex={() => {
+              handleFilterSex(1);
             }}
-            activeButton={activeButton}
+            activeSex={activeSex}
             expectedButton={1}
             sex="Female"
           />
           <FilterButton
-            handleFilterButton={() => {
-              handleFilterButton(2);
+            handleFilterSex={() => {
+              handleFilterSex(2);
             }}
-            activeButton={activeButton}
+            activeSex={activeSex}
             sex="Male"
             expectedButton={2}
           />
           <FilterButton
-            handleFilterButton={() => {
-              handleFilterButton(0);
+            handleFilterSex={() => {
+              handleFilterSex(0);
             }}
-            activeButton={activeButton}
+            activeSex={activeSex}
             sex="All"
             expectedButton={0}
           />

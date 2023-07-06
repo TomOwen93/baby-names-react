@@ -2,14 +2,16 @@ import babyNamesData from "../babyNamesData.json";
 import { useState } from "react";
 import { compareBaby } from "../utils/sortBaby";
 import { filterBabyInput, filterBabyId } from "../utils/filterBaby";
+import { FavouritesSection } from "./FavouritesSection";
+import { FilterButton } from "./FilterButton";
 
-type Baby = {
+export interface Baby {
   name: string;
   id: number;
   sex: string;
-};
+}
 
-function MainContent(): JSX.Element {
+function BabyList(): JSX.Element {
   const babyData: Baby[] = babyNamesData.sort((a: Baby, b: Baby) =>
     compareBaby(a, b)
   );
@@ -79,50 +81,45 @@ function MainContent(): JSX.Element {
         <div className="baby-section">
           <h3>Favourites:</h3>
           {favourites.map((favouriteBaby) => (
-            <button
-              className={`gender-${favouriteBaby.sex}`}
+            <FavouritesSection
               key={favouriteBaby.id}
-              onClick={() => handleRemoveFavourites(favouriteBaby)}
-            >
-              {favouriteBaby.name}{" "}
-            </button>
+              favourite={favouriteBaby}
+              handleRemoveFavourites={() =>
+                handleRemoveFavourites(favouriteBaby)
+              }
+            />
           ))}
+
           <button className="plain-button" onClick={handleResetFavourites}>
             Reset Favourites
           </button>
         </div>
         <div className="filter-button-section">
           <h3>Filter:</h3>
-          <button
-            className={`${
-              activeButton === 1 ? "active-button" : "plain-button"
-            }`}
-            onClick={() => {
+          <FilterButton
+            handleFilterButton={() => {
               handleFilterButton(1);
             }}
-          >
-            Female
-          </button>
-          <button
-            className={`${
-              activeButton === 2 ? "active-button" : "plain-button"
-            }`}
-            onClick={() => {
+            activeButton={activeButton}
+            expectedButton={1}
+            sex="Female"
+          />
+          <FilterButton
+            handleFilterButton={() => {
               handleFilterButton(2);
             }}
-          >
-            Male
-          </button>
-          <button
-            className={`${
-              activeButton === 0 ? "active-button" : "plain-button"
-            }`}
-            onClick={() => {
+            activeButton={activeButton}
+            sex="Male"
+            expectedButton={2}
+          />
+          <FilterButton
+            handleFilterButton={() => {
               handleFilterButton(0);
             }}
-          >
-            All
-          </button>
+            activeButton={activeButton}
+            sex="All"
+            expectedButton={0}
+          />
         </div>
 
         <hr />
@@ -144,4 +141,4 @@ function MainContent(): JSX.Element {
   );
 }
 
-export default MainContent;
+export default BabyList;

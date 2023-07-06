@@ -1,11 +1,12 @@
 import "./style.css";
-import MainContent from "./components/MainContent";
+import BabyList from "./components/BabyList";
+import { AppHeader } from "./components/AppHeader";
 
 function App(): JSX.Element {
   return (
     <section>
-      <h1 className="title">Baby Name Selector</h1>
-      <MainContent />
+      <AppHeader />
+      <BabyList />
     </section>
   );
 }

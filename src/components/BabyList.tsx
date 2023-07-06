@@ -44,7 +44,7 @@ function BabyList(): JSX.Element {
   const handleResetFavourites = () => {
     setFavourites([]);
     setBabyList(babyData);
-    setActiveButton(prev => prev);
+    setActiveButton((prev) => prev);
   };
 
   const handleFilterButton = (num: number) => {

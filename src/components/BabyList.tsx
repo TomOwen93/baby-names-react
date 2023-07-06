@@ -11,7 +11,7 @@ export interface Baby {
   sex: string;
 }
 
-const sexLookup: { [key: number]: string|undefined } = {1: "f", 2: "m" };
+const sexLookup: { [key: number]: string | undefined } = { 1: "f", 2: "m" };
 
 function BabyList(): JSX.Element {
   const originalBabyData: Baby[] = babyNamesData.sort((a: Baby, b: Baby) =>
@@ -21,10 +21,10 @@ function BabyList(): JSX.Element {
   const [searchInput, setSearchInput] = useState("");
   const [babyList, setBabyList] = useState<Baby[]>(originalBabyData);
   const [favourites, setFavourites] = useState<Baby[]>([]);
-  const [activeButton, setActiveButton] = useState(0);
+  const [activeSex, setActiveSex] = useState(0);
 
   const filteredData = babyList.filter((el) => {
-    const isSexMatch = activeButton === 0 || el.sex === sexLookup[activeButton];
+    const isSexMatch = activeSex === 0 || el.sex === sexLookup[activeSex];
     return filterBabyInput(el.name, searchInput) && isSexMatch;
   });
 
@@ -42,18 +42,15 @@ function BabyList(): JSX.Element {
     setBabyList(
       [...babyList, baby].sort((a: Baby, b: Baby) => compareBaby(a, b))
     );
-    
-
   };
 
   const handleResetFavourites = () => {
     setFavourites([]);
-    setBabyList(originalBabyData)
-    
+    setBabyList(originalBabyData);
   };
 
   const handleFilterSex = (num: number) => {
-    setActiveButton(num);
+    setActiveSex(num);
   };
 
   return (
@@ -86,7 +83,7 @@ function BabyList(): JSX.Element {
             handleFilterSex={() => {
               handleFilterSex(1);
             }}
-            activeButton={activeButton}
+            activeSex={activeSex}
             expectedButton={1}
             sex="Female"
           />
@@ -94,7 +91,7 @@ function BabyList(): JSX.Element {
             handleFilterSex={() => {
               handleFilterSex(2);
             }}
-            activeButton={activeButton}
+            activeSex={activeSex}
             sex="Male"
             expectedButton={2}
           />
@@ -102,7 +99,7 @@ function BabyList(): JSX.Element {
             handleFilterSex={() => {
               handleFilterSex(0);
             }}
-            activeButton={activeButton}
+            activeSex={activeSex}
             sex="All"
             expectedButton={0}
           />

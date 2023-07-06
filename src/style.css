@@ -72,7 +72,8 @@ hr {
 }
 
 body {
-  background-color: pink;
+  background-color: whitesmoke;
+  font-family: Impact, Haettenschweiler, "Arial Narrow Bold", sans-serif;
 }
 
 .filter-button-section {

@@ -4,6 +4,7 @@ import { compareBaby } from "../utils/sortBaby";
 import { filterBabyInput, filterBabyId } from "../utils/filterBaby";
 import { FavouritesSection } from "./FavouritesSection";
 import { FilterButton } from "./FilterButton";
+import { useAutoAnimate } from "@formkit/auto-animate/react";
 
 export interface Baby {
   name: string;
@@ -17,6 +18,9 @@ function BabyList(): JSX.Element {
   const originalBabyData: Baby[] = babyNamesData.sort((a: Baby, b: Baby) =>
     compareBaby(a, b)
   );
+  const [animationParent] = useAutoAnimate();
+
+  const potentialFilters = [0, 1, 2];
 
   const [searchInput, setSearchInput] = useState("");
   const [babyList, setBabyList] = useState<Baby[]>(originalBabyData);
@@ -61,7 +65,7 @@ function BabyList(): JSX.Element {
           className="search-input"
         />
         <hr />
-        <div className="baby-section">
+        <div className="baby-section" ref={animationParent}>
           <h3>Favourites:</h3>
           {favourites.map((favouriteBaby) => (
             <FavouritesSection
@@ -79,35 +83,22 @@ function BabyList(): JSX.Element {
         </div>
         <div className="filter-button-section">
           <h3>Filter:</h3>
-          <FilterButton
-            handleFilterSex={() => {
-              handleFilterSex(1);
-            }}
-            activeSex={activeSex}
-            expectedButton={1}
-            sex="Female"
-          />
-          <FilterButton
-            handleFilterSex={() => {
-              handleFilterSex(2);
-            }}
-            activeSex={activeSex}
-            sex="Male"
-            expectedButton={2}
-          />
-          <FilterButton
-            handleFilterSex={() => {
-              handleFilterSex(0);
-            }}
-            activeSex={activeSex}
-            sex="All"
-            expectedButton={0}
-          />
+          {potentialFilters.map((filterNumber) => (
+            <FilterButton
+              key={filterNumber}
+              handleFilterSex={() => {
+                handleFilterSex(filterNumber);
+              }}
+              activeSex={activeSex}
+              expectedButton={filterNumber}
+              sex="Female"
+            />
+          ))}
         </div>
 
         <hr />
 
-        <div className="baby-section">
+        <div className="baby-section" ref={animationParent}>
           {filteredData.map((baby) => (
             <button
               onClick={() => handleAddFavourites(baby)}

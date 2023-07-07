@@ -1,3 +1,5 @@
+import { useAutoAnimate } from "@formkit/auto-animate/react";
+
 interface FilterButtonProps {
   activeSex: number;
   sex: string;
@@ -11,8 +13,11 @@ export function FilterButton({
   sex,
   expectedButton,
 }: FilterButtonProps): JSX.Element {
+  const [animationParent] = useAutoAnimate();
+
   return (
     <button
+      ref={animationParent}
       className={`${
         activeSex === expectedButton
           ? `active-button${activeSex}`

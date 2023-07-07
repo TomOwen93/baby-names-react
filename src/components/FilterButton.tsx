@@ -14,7 +14,9 @@ export function FilterButton({
   return (
     <button
       className={`${
-        activeSex === expectedButton ? "active-button" : "plain-button"
+        activeSex === expectedButton
+          ? `active-button${activeSex}`
+          : "plain-button"
       }`}
       onClick={handleFilterSex}
     >

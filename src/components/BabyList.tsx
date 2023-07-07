@@ -13,6 +13,7 @@ export interface Baby {
 }
 
 const sexLookup: { [key: number]: string | undefined } = { 1: "f", 2: "m" };
+const sexLookupFull: { [key: number]: string  } = { 0: "All", 1: "Female", 2: "Male" };
 
 function BabyList(): JSX.Element {
   const originalBabyData: Baby[] = babyNamesData.sort((a: Baby, b: Baby) =>
@@ -62,7 +63,7 @@ function BabyList(): JSX.Element {
       <div className="main-section">
         <input
           onChange={(event) => setSearchInput(event.target.value)}
-          className="search-input"
+          className="search-input" 
         />
         <hr />
         <div className="baby-section" ref={animationParent}>
@@ -91,7 +92,7 @@ function BabyList(): JSX.Element {
               }}
               activeSex={activeSex}
               expectedButton={filterNumber}
-              sex="Female"
+              sex={sexLookupFull[filterNumber]}
             />
           ))}
         </div>
